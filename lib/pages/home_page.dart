@@ -8,6 +8,7 @@ import '../service/service_method.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,7 +27,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    _getHotGoods();
     super.initState();
   }
 
@@ -56,29 +56,48 @@ class _HomePageState extends State<HomePage>
             List<Map> floor1 = (data['data']['floor1'] as List).cast();
             List<Map> floor2 = (data['data']['floor2'] as List).cast();
             List<Map> floor3 = (data['data']['floor3'] as List).cast();
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  SwiperDiy(
-                    swiperDataList: swiper,
-                  ),
-                  TopNavGator(navigationList: navigatorList),
-                  AdBanner(adPicture: adPicture),
-                  LeaderPhone(
-                    leaderImage: leaderImage,
-                    leaderPhone: leaderPhone,
-                  ),
-                  Recommend(recommendList: recommentList),
-                  FloorTitle(picture_address: floorTile),
-                  FloorContent(floorGoodsList: floor1),
-                  FloorTitle(picture_address: floor2Tile),
-                  FloorContent(floorGoodsList: floor2),
-                  FloorTitle(picture_address: floor3Tile),
-                  FloorContent(floorGoodsList: floor3),
-                  _hotGoods(),
-                ],
-              ),
-            );
+            return EasyRefresh(
+                footer: ClassicalFooter(
+                  bgColor:Colors.white,
+                  textColor:  Colors.pink,
+                  noMoreText: '',
+                  loadText: '上拉加载',
+                  loadingText: '加载中...'
+                ),
+
+                child: ListView(
+                  children: [
+                    SwiperDiy(
+                      swiperDataList: swiper,
+                    ),
+                    TopNavGator(navigationList: navigatorList),
+                    AdBanner(adPicture: adPicture),
+                    LeaderPhone(
+                      leaderImage: leaderImage,
+                      leaderPhone: leaderPhone,
+                    ),
+                    Recommend(recommendList: recommentList),
+                    FloorTitle(picture_address: floorTile),
+                    FloorContent(floorGoodsList: floor1),
+                    FloorTitle(picture_address: floor2Tile),
+                    FloorContent(floorGoodsList: floor2),
+                    FloorTitle(picture_address: floor3Tile),
+                    FloorContent(floorGoodsList: floor3),
+                    _hotGoods(),
+                  ],
+                ),
+                onLoad: () async {
+                  var formPage = {'page': page};
+                 await request('homePageBelowContent', formData: formPage)
+                      .then((value) {
+                    var data = json.decode(value.toString());
+                    List<Map> newGoods = (data['data'] as List).cast();
+                    setState(() {
+                      hotGoodsList.addAll(newGoods);
+                      page++;
+                    });
+                  });
+                });
           } else {
             return Center(
               child: Text('加载中'),
@@ -87,18 +106,6 @@ class _HomePageState extends State<HomePage>
         },
       ),
     );
-  }
-
-  void _getHotGoods() {
-    var formPage = {'page': page};
-    request('homePageBelowContent', formData: formPage).then((value) {
-      var data = json.decode(value.toString());
-      List<Map> newGoods = (data['data'] as List).cast();
-      setState(() {
-        hotGoodsList.addAll(newGoods);
-        page++;
-      });
-    });
   }
 
   Widget hotTile = Container(

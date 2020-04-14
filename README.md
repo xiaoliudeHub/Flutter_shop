@@ -1,4 +1,4 @@
-# flutter_shop
+# 自学Flutter仿写的商城APP
 
 A new Flutter project.
 

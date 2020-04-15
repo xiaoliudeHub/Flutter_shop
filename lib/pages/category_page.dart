@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop/widgets/Category/category_goods_list.dart';
 import 'package:flutter_shop/widgets/Category/left_category.dart';
 import 'package:flutter_shop/widgets/Category/right_category.dart';
 import '../service/service_method.dart';
@@ -30,6 +31,7 @@ class _CategoryPageState extends State<CategoryPage> {
             Column(
               children: [
                 RightCategoryNav(),
+                CategoryGoodsList(),
               ],
             ),
           ],

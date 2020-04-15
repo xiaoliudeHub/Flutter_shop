@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop/models/category.dart';
+import 'package:flutter_shop/models/category_good.dart';
+import 'package:flutter_shop/provide/category_goods_list.dart';
 import 'package:flutter_shop/provide/child_category.dart';
 import 'package:flutter_shop/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
+
 
 
 class LeftCategory extends StatefulWidget {
@@ -15,11 +18,13 @@ class LeftCategory extends StatefulWidget {
 class _LeftCategoryState extends State<LeftCategory> {
 
   List list = [];
+  List dataList = [];
   var listIndex = 0;
 
  @override
   void initState() {
     _getCategory();
+    _getGoodsList();
     super.initState();
   }
 
@@ -51,7 +56,9 @@ class _LeftCategoryState extends State<LeftCategory> {
            listIndex = index;
          });
          var childList = list[index].bxMallSubDto;
-         Provide.value<ChildCategory>(context).getChildCategory(childList);
+         var categoryId = list[index].mallCategoryId;
+         Provide.value<ChildCategory>(context).getChildCategory(childList, categoryId);
+         _getGoodsList(categoryId: categoryId);
        },
        child: Container(
          height: ScreenUtil().setHeight(100),
@@ -73,6 +80,7 @@ class _LeftCategoryState extends State<LeftCategory> {
     );
   }
 
+//获取分类
   void _getCategory() async {
     await request('getCategory').then((value) {
       var data = json.decode(value.toString());
@@ -80,7 +88,18 @@ class _LeftCategoryState extends State<LeftCategory> {
       setState(() {
         list = category.data;
       });
-      Provide.value<ChildCategory>(context).getChildCategory(list[0].bxMallSubDto);
+      Provide.value<ChildCategory>(context).getChildCategory(list[0].bxMallSubDto, list[0].mallCategoryId);
+    });
+  }
+
+//获取商品列表
+  void _getGoodsList({String categoryId}) async {
+    var data = {'categoryId': categoryId==null?'4':categoryId, 'categorySubId': '', 'page': 1};
+
+    await request('getMallGoods', formData: data).then((value) {
+      var data = json.decode(value.toString());
+      CategoryGoodsListModel goodsList = CategoryGoodsListModel.fromJson(data);
+        Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodsList.data);
     });
   }
 }

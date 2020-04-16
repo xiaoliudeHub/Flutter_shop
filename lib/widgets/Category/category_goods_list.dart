@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_shop/models/category_good.dart';
 import 'package:flutter_shop/provide/category_goods_list.dart';
 import 'package:flutter_shop/provide/child_category.dart';
+import 'package:flutter_shop/routers/application.dart';
 import 'package:flutter_shop/service/service_method.dart';
 import 'package:provide/provide.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -98,7 +99,9 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
 
   Widget _categoryListCell(CategoryGood item) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Application.router.navigateTo(context, '/detail?id=${item.goodsId}');
+      },
       child: Container(
         height: ScreenUtil().setHeight(160),
         decoration: BoxDecoration(

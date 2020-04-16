@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_shop/provide/details_info.dart';
 import 'package:flutter_shop/routers/application.dart';
 import 'package:flutter_shop/routers/routers.dart';
 import './pages/index_page.dart';
@@ -11,11 +12,13 @@ import 'package:fluro/fluro.dart';
 void main() {
   var childCategory = ChildCategory();
   var categoryGoodsListProvide = CategoryGoodsListProvide(); 
+  var detailGoodProvide = DetailsInfoProvide();
   var providers = Providers();
 
   providers
   ..provide(Provider<ChildCategory>.value(childCategory))
-  ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide));
+  ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide))
+  ..provide(Provider<DetailsInfoProvide>.value(detailGoodProvide));
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
 

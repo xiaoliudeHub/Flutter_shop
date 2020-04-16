@@ -59,13 +59,11 @@ class _HomePageState extends State<HomePage>
             List<Map> floor3 = (data['data']['floor3'] as List).cast();
             return EasyRefresh(
                 footer: ClassicalFooter(
-                  bgColor:Colors.white,
-                  textColor:  Colors.pink,
-                  noMoreText: '',
-                  loadText: '上拉加载',
-                  loadingText: '加载中...'
-                ),
-
+                    bgColor: Colors.white,
+                    textColor: Colors.pink,
+                    noMoreText: '',
+                    loadText: '上拉加载',
+                    loadingText: '加载中...'),
                 child: ListView(
                   children: [
                     SwiperDiy(
@@ -89,7 +87,7 @@ class _HomePageState extends State<HomePage>
                 ),
                 onLoad: () async {
                   var formPage = {'page': page};
-                 await request('homePageBelowContent', formData: formPage)
+                  await request('homePageBelowContent', formData: formPage)
                       .then((value) {
                     var data = json.decode(value.toString());
                     List<Map> newGoods = (data['data'] as List).cast();
@@ -124,7 +122,8 @@ class _HomePageState extends State<HomePage>
       List<Widget> listWidget = hotGoodsList.map((val) {
         return InkWell(
           onTap: () {
-            Application.router.navigateTo(context, '/detail?id=${val['goodsId']}');
+            Application.router
+                .navigateTo(context, '/detail?id=${val['goodsId']}');
           },
           child: Container(
             width: ScreenUtil().setWidth(372),
@@ -196,9 +195,14 @@ class SwiperDiy extends StatelessWidget {
       width: ScreenUtil().setWidth(750),
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return Image.network(
-            "${swiperDataList[index]['image']}",
-            fit: BoxFit.cover,
+          return InkWell(
+            onTap: () {
+              Application.router.navigateTo(context,"/detail?id=${swiperDataList[index]['goodsId']}");
+            },
+            child: Image.network(
+              "${swiperDataList[index]['image']}",
+              fit: BoxFit.cover,
+            ),
           );
         },
         itemCount: swiperDataList.length,

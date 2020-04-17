@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin {
+     {
   int page = 1;
   List<Map> hotGoodsList = [];
 
@@ -58,6 +58,10 @@ class _HomePageState extends State<HomePage>
             List<Map> floor2 = (data['data']['floor2'] as List).cast();
             List<Map> floor3 = (data['data']['floor3'] as List).cast();
             return EasyRefresh(
+                header: ClassicalHeader(
+                  refreshText: '下拉刷新',
+                  refreshReadyText: '刷新成功',
+                ),
                 footer: ClassicalFooter(
                     bgColor: Colors.white,
                     textColor: Colors.pink,
@@ -85,6 +89,9 @@ class _HomePageState extends State<HomePage>
                     _hotGoods(),
                   ],
                 ),
+                onRefresh: () async {
+                  
+                },
                 onLoad: () async {
                   var formPage = {'page': page};
                   await request('homePageBelowContent', formData: formPage)
@@ -99,7 +106,7 @@ class _HomePageState extends State<HomePage>
                 });
           } else {
             return Center(
-              child: Text('加载中'),
+              child: CircularProgressIndicator(),
             );
           }
         },

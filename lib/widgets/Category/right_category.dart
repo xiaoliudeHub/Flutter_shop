@@ -26,8 +26,8 @@ class _RightCategoryNavState extends State<RightCategoryNav> {
             color: Colors.white,
             border: Border(
                 bottom: BorderSide(
-              width: 1,
-              color: Colors.grey,
+              width: 0.5,
+              color: Colors.black12,
             )),
           ),
           child: ListView.builder(

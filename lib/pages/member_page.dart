@@ -31,7 +31,7 @@ class MemberPage extends StatelessWidget {
             height: 160.w,
             child: ClipOval(
               child: Image.network(
-                  'http://blogimages.jspang.com/blogtouxiang1.jpg'),
+                  'https://cdn2.jianshu.io/assets/default_avatar/6-fd30f34c8641f6f32f5494df5d6b8f3c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240'),
             ),
           ),
           Container(

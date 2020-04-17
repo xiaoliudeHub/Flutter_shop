@@ -58,8 +58,11 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
                 shrinkWrap: true, //使用子控件的总长度来设置ListView的长度（这里的长度为高度）
                 controller: scrollController,
               ),
+              onRefresh: () async {
+                _getMoreList(false);
+              },
               onLoad: () async {
-                _getMoreList();
+                _getMoreList(true);
               },
             ),
           ),
@@ -69,12 +72,15 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   }
 
   //获取商品列表
-  void _getMoreList() async {
-    Provide.value<ChildCategory>(context).addPage();
+  void _getMoreList(bool isLoadMore) async {
+    if (isLoadMore) {
+      Provide.value<ChildCategory>(context).addPage();
+    }
+    
     var data = {
       'categoryId': Provide.value<ChildCategory>(context).categoryId,
       'categorySubId': Provide.value<ChildCategory>(context).subId,
-      'page': Provide.value<ChildCategory>(context).page,
+      'page': isLoadMore ? Provide.value<ChildCategory>(context).page : 1,
     };
 
     await request('getMallGoods', formData: data).then((value) {
@@ -103,7 +109,7 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
         Application.router.navigateTo(context, '/detail?id=${item.goodsId}');
       },
       child: Container(
-        height: ScreenUtil().setHeight(160),
+        height: ScreenUtil().setHeight(190),
         decoration: BoxDecoration(
           border: Border(bottom: BorderSide(color: Colors.black12, width: 0.5)),
         ),
@@ -155,6 +161,7 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
               '价格：¥${item.presentPrice}',
               style: TextStyle(color: Colors.pink),
             ),
+            SizedBox(width: 5.0),
             Text(
               '¥${item.oriPrice}',
               style: TextStyle(

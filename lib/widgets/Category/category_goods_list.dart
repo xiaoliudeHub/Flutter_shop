@@ -29,7 +29,10 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
       try {
         if (Provide.value<ChildCategory>(context).page == 1) {
           //列表回到顶部
-          scrollController.jumpTo(0.0);
+          if (scrollController.positions.isNotEmpty) {
+            scrollController.jumpTo(0.0);
+          }
+          
         }
       } catch (e) {
         print('进入界面第一次初始化${e}');

@@ -27,6 +27,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>请求在您使用期间获取您的相机权限，使用扫描条形码等功能</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>请求在您使用期间获取定位权限，这将带来更好的用户体验</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>请求在您使用期间获取您的相册权限</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

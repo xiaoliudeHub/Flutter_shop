@@ -41,8 +41,10 @@ class _HomePageState extends State<HomePage>
       body: FutureBuilder(
         future: request('homePageContent', formData: formData),
         builder: (context, snapshot) {
+          
           if (snapshot.hasData) {
             var data = json.decode(snapshot.data.toString());
+            print(data);
             List<Map> swiper = (data['data']['slides'] as List).cast();
             List<Map> navigatorList = (data['data']['category'] as List).cast();
             String adPicture =

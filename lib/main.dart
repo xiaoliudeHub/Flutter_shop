@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_shop/provide/current_index.dart';
 import 'package:flutter_shop/provide/details_info.dart';
+import 'package:flutter_shop/provide/login_provide.dart';
 import 'package:flutter_shop/provide/shop_cart.dart';
 import 'package:flutter_shop/routers/application.dart';
 import 'package:flutter_shop/routers/routers.dart';
@@ -18,6 +19,7 @@ void main() {
   var detailGoodProvide = DetailsInfoProvide();
   var cartProvide = CartProvide();
   var currentIndexProvide = CurrentIndexProvide();
+  var loginProvide = LoginProvide();
   var providers = Providers();
 
   providers
@@ -25,7 +27,8 @@ void main() {
   ..provide(Provider<CategoryGoodsListProvide>.value(categoryGoodsListProvide))
   ..provide(Provider<DetailsInfoProvide>.value(detailGoodProvide))
   ..provide(Provider<CartProvide>.value(cartProvide))
-  ..provide(Provider<CurrentIndexProvide>.value(currentIndexProvide));
+  ..provide(Provider<CurrentIndexProvide>.value(currentIndexProvide))
+  ..provide(Provider<LoginProvide>.value(loginProvide));
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
 
